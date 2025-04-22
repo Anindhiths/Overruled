@@ -6,11 +6,11 @@ export default function About() {
       <div className="max-w-4xl mx-auto">
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Game Concept</h2>
-          <p className="text-gray-700 mb-4">
+          <p className="text-white mb-4">
             Legal Battle Arena is a blockchain-based game that puts you in the shoes of a lawyer defending clients in various legal cases. 
             The game combines the power of blockchain technology with AI-powered interactions to create an engaging and educational experience.
           </p>
-          <p className="text-gray-700">
+          <p className="text-white">
             As a player, you'll be presented with different cases and must use your legal expertise to defend your clients. 
             You'll interact with an AI judge, opposing counsel, and witnesses through a chat-based interface, making arguments and presenting evidence to win your cases.
           </p>
@@ -79,7 +79,7 @@ export default function About() {
         
         <section>
           <h2 className="text-2xl font-semibold mb-4">Get Started</h2>
-          <p className="text-gray-700 mb-6">
+          <p className="text-white mb-6">
             Ready to test your legal skills? Connect your wallet and start playing Legal Battle Arena today!
           </p>
           <div className="flex justify-center">

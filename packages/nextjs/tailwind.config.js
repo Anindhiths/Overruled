@@ -59,7 +59,44 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: { center: "0 0 12px -2px rgb(0 0 0 / 0.05)" },
-      animation: { "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite" },
+      animation: {
+        "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-subtle": "pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "bad-argument": "bad-argument 1.5s ease-in-out",
+        "recording": "recording 1.5s ease-in-out infinite",
+        "fadeIn": "fadeIn 0.5s ease-in-out",
+        "scaleIn": "scaleIn 0.4s ease-out",
+        "blink-cursor": "blink-cursor 0.8s ease-in-out infinite"
+      },
+      keyframes: {
+        "pulse-subtle": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.8" }
+        },
+        "bad-argument": {
+          "0%": { backgroundColor: "rgba(239, 68, 68, 0)" },
+          "25%": { backgroundColor: "rgba(239, 68, 68, 0.5)" },
+          "50%": { backgroundColor: "rgba(248, 113, 113, 0.4)" },
+          "75%": { backgroundColor: "rgba(252, 165, 165, 0.3)" },
+          "100%": { backgroundColor: "rgba(239, 68, 68, 0)" }
+        },
+        "recording": {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.1)", opacity: "0.8" }
+        },
+        "fadeIn": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" }
+        },
+        "scaleIn": {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" }
+        },
+        "blink-cursor": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" }
+        }
+      }
     },
   },
 };

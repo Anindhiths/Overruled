@@ -12,7 +12,7 @@ import { Footer } from "~~/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Legal Battle Arena",
+  title: "Overruled!",
   description: "A blockchain-based legal game with AI-powered interactions",
 };
 

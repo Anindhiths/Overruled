@@ -91,7 +91,7 @@ export function useScaffoldWriteContract<TContractName extends ContractName>(
     options?: ScaffoldWriteContractOptions,
   ) => {
     if (!deployedContractData) {
-      notification.error("Target Contract is not deployed, did you forget to run `yarn deploy`?");
+      console.warn("Target Contract is not deployed - silently ignoring write attempt");
       return;
     }
 
@@ -148,12 +148,8 @@ export function useScaffoldWriteContract<TContractName extends ContractName>(
     variables: ScaffoldWriteContractVariables<TContractName, TFunctionName>,
     options?: Omit<ScaffoldWriteContractOptions, "onBlockConfirmation" | "blockConfirmations">,
   ) => {
-    if (!deployedContractData) {
-      notification.error("Target Contract is not deployed, did you forget to run `yarn deploy`?");
-      return;
-    }
-    if (!accountChain?.id) {
-      notification.error("Please connect your wallet");
+    if (!deployedContractData || !accountChain?.id) {
+      console.warn("Target Contract is not deployed - silently ignoring write attempt");
       return;
     }
 

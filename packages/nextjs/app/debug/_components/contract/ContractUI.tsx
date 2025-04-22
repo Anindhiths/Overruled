@@ -34,9 +34,9 @@ export const ContractUI = ({ contractName, className = "" }: ContractUIProps) =>
 
   if (!deployedContractData) {
     return (
-      <p className="text-3xl mt-14">
-        {`No contract found by the name of "${contractName}" on chain "${targetNetwork.name}"!`}
-      </p>
+      <div className="hidden">
+        {/* Hide the error message about missing contracts */}
+      </div>
     );
   }
 

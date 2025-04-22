@@ -13,7 +13,7 @@ const Home: NextPage = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-blue-800 mb-6">
-          Legal Battle Arena
+          Overruled!
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
           Step into the courtroom and prove your legal expertise in this blockchain-based game.

@@ -5,9 +5,17 @@ const deployLegalGame: DeployFunction = async function (hre: HardhatRuntimeEnvir
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
+  // Deploy a mock token first
+  const mockToken = await deploy("MockERC20", {
+    from: deployer,
+    args: ["Legal Game Token", "LGT"],
+    log: true,
+  });
+
+  // Deploy the LegalGame contract with the mock token and deployer as owner
   await deploy("LegalGame", {
     from: deployer,
-    args: [],
+    args: [mockToken.address, deployer],
     log: true,
   });
 };

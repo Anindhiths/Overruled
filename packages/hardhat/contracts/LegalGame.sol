@@ -68,7 +68,7 @@ contract LegalGame is Ownable {
     event TutorialCompleted(address player, uint256 reward);
     event RewardAmountUpdated(string rewardType, uint256 newAmount);
 
-    constructor(address _rewardToken) {
+    constructor(address _rewardToken, address initialOwner) Ownable(initialOwner) {
         rewardToken = IERC20(_rewardToken);
         caseCounter = 0;
     }
@@ -166,14 +166,6 @@ contract LegalGame is Ownable {
         emit CaseLost(player, caseCounter);
     }
 
-    function getPlayerStats(address player) external view returns (
-        uint256 wins,
-        uint256 losses,
-        uint256 rewards
-    ) {
-        return (casesWon[player], casesLost[player], totalRewards[player]);
-    }
-
     function withdrawTokens(address token, uint256 amount) external onlyOwner {
         require(IERC20(token).transfer(owner(), amount), "Transfer failed");
     }
@@ -225,11 +217,5 @@ contract LegalGame is Ownable {
     // View functions
     function getPlayerStats(address _player) external view returns (PlayerStats memory) {
         return playerStats[_player];
-    }
-    
-    function getWinRate(address _player) external view returns (uint256) {
-        uint256 totalCases = playerStats[_player].casesWon + playerStats[_player].casesLost;
-        if (totalCases == 0) return 0;
-        return (playerStats[_player].casesWon * 100) / totalCases;
     }
 } 

@@ -22,7 +22,9 @@ export class AIService {
   }
 
   async generateJudgeResponse(context: string): Promise<string> {
-    const prompt = `You are an AI judge in a legal game. Provide a brief, concise response (1-2 sentences) that maintains judicial decorum and guides the proceedings.
+    const prompt = `You are an AI judge in a legal game. Provide a brief, concise response (1-2 sentences) that maintains judicial decorum and guides the proceedings. Ensure your response is grammatically perfect with proper punctuation and sentence structure.
+
+    IMPORTANT: Always check spelling carefully! Never use "Yur" instead of "Your". Always spell words correctly, especially common words like "Your Honor", "court", "evidence", etc.
     
     Context: ${context}
     
@@ -30,7 +32,7 @@ export class AIService {
 
     try {
       const response = await this.callGroqAPI(prompt);
-      return response;
+      return this.spellCheckResponse(response);
     } catch (error) {
       console.error("Error generating judge response:", error);
       return "The court will take that under advisement.";
@@ -38,7 +40,9 @@ export class AIService {
   }
 
   async generateOpponentResponse(context: string): Promise<string> {
-    const prompt = `You are an AI opposing counsel in a legal game. Provide a brief, concise response (1-2 sentences) that challenges the player's arguments while maintaining professionalism.
+    const prompt = `You are an AI opposing counsel in a legal game. Provide a brief, concise response (1-2 sentences) that challenges the player's arguments while maintaining professionalism. Ensure your response is grammatically perfect with proper punctuation and sentence structure.
+    
+    IMPORTANT: Always check spelling carefully! Never use "Yur" instead of "Your". Always spell words correctly, especially common words like "Your Honor", "court", "evidence", "prosecution", etc.
     
     Context: ${context}
     
@@ -46,15 +50,17 @@ export class AIService {
 
     try {
       const response = await this.callGroqAPI(prompt);
-      return response;
+      return this.spellCheckResponse(response);
     } catch (error) {
       console.error("Error generating opponent response:", error);
-      return "I object to that line of questioning, your honor.";
+      return "I object to that line of questioning, Your Honor.";
     }
   }
 
   async generateWitnessResponse(context: string, witnessRole: string): Promise<string> {
-    const prompt = `You are a ${witnessRole} witness in a legal game. Provide a brief, concise response (1-2 sentences) that stays in character and provides relevant testimony.
+    const prompt = `You are a ${witnessRole} witness in a legal game. Provide a brief, concise response (1-2 sentences) that stays in character and provides relevant testimony. Ensure your response is grammatically perfect with proper punctuation and sentence structure.
+    
+    IMPORTANT: Always check spelling carefully! Never use "Yur" instead of "Your". Always spell words correctly, especially common words like "Your Honor", "court", "evidence", etc.
     
     Context: ${context}
     
@@ -62,11 +68,21 @@ export class AIService {
 
     try {
       const response = await this.callGroqAPI(prompt);
-      return response;
+      return this.spellCheckResponse(response);
     } catch (error) {
       console.error("Error generating witness response:", error);
-      return "I don't recall, your honor.";
+      return "I don't recall, Your Honor.";
     }
+  }
+
+  // Helper method to correct common spelling errors
+  private spellCheckResponse(response: string): string {
+    // Fix common spelling mistakes
+    return response
+      .replace(/\bYur\b/g, "Your")
+      .replace(/\byur\b/g, "your")
+      .replace(/\bHonr\b/g, "Honor")
+      .replace(/\bhonr\b/g, "honor");
   }
 
   private async callGroqAPI(prompt: string): Promise<string> {
@@ -84,7 +100,7 @@ export class AIService {
           messages: [
             {
               role: "system",
-              content: "You are an AI assistant participating in a legal game simulation. Keep responses brief and concise.",
+              content: "You are an AI assistant participating in a legal game simulation. Keep responses brief, concise, and always grammatically correct. Use proper punctuation, capitalization, and complete sentences. Make sure responses follow proper English grammar rules and sound natural. CRITICAL: Always use correct spelling - especially for common words like 'Your' (not 'Yur'), 'Honor', 'Court', etc. Double-check all spelling in your responses. Avoid typos, run-on sentences, or grammatical errors.",
             },
             {
               role: "user",
@@ -92,7 +108,7 @@ export class AIService {
             },
           ],
           temperature: 0.7,
-          max_tokens: 50,
+          max_tokens: 150,
         }),
       });
 

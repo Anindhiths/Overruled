@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { TutorialCase } from "~~/components/game/TutorialCase";
@@ -16,7 +16,6 @@ const GamePage = () => {
   const { address } = useAccount();
   const [showTutorial, setShowTutorial] = useState(true);
   const [hasCompletedTutorial, setHasCompletedTutorial] = useState(false);
-  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("easy");
   const [gameStats, setGameStats] = useState<GameStats>({
     gamesWon: 0,
     gamesLost: 0,
@@ -31,6 +30,7 @@ const GamePage = () => {
   const handleTutorialComplete = () => {
     setHasCompletedTutorial(true);
     setShowTutorial(false);
+    setShowStats(false);
   };
 
   const handleCaseComplete = (won: boolean) => {
@@ -42,7 +42,7 @@ const GamePage = () => {
     setShowStats(true);
   };
 
-  const startNewCase = () => {
+  const startNextCase = () => {
     setShowStats(false);
   };
 
@@ -50,7 +50,7 @@ const GamePage = () => {
     <div className="container mx-auto px-4 py-8">
       {!hasCompletedTutorial && showTutorial && (
         <div className="mb-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Legal Battle Arena</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Overruled!</h1>
           <button
             onClick={() => {
               setShowTutorial(false);
@@ -65,24 +65,7 @@ const GamePage = () => {
 
       {hasCompletedTutorial && (
         <div className="mb-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Legal Battle Arena</h1>
-          <div className="flex space-x-4">
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value as "easy" | "medium" | "hard")}
-              className="px-4 py-2 bg-white border rounded hover:bg-gray-50 transition-colors"
-            >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-            <button
-              onClick={startNewCase}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-            >
-              New Case
-            </button>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-800">Overruled!</h1>
         </div>
       )}
 
@@ -107,15 +90,15 @@ const GamePage = () => {
           </div>
           <div className="flex justify-center">
             <button
-              onClick={startNewCase}
+              onClick={startNextCase}
               className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Start New Case
+              Continue to Next Case
             </button>
           </div>
         </div>
       ) : (
-        <RandomCase difficulty={difficulty} onComplete={handleCaseComplete} />
+        <RandomCase onComplete={handleCaseComplete} />
       )}
     </div>
   );

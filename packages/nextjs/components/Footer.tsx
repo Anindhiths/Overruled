@@ -24,7 +24,7 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <h3 className="text-xl font-bold">Legal Battle Arena</h3>
+            <h3 className="text-xl font-bold">Overruled!</h3>
             <p className="text-gray-400 mt-2">A blockchain-based legal game with AI-powered interactions</p>
           </div>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
