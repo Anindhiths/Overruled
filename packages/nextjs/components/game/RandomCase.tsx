@@ -7,6 +7,7 @@ import { useScaffoldWriteContract, useScaffoldReadContract, useScaffoldContract 
 import { AIService } from "~~/services/ai";
 import { VerdictPopup } from "./VerdictPopup";
 import { CaseInfo } from "./CaseInfo";
+import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 interface Message {
   role: "player" | "judge" | "opponent" | "witness" | "system";
@@ -453,6 +454,37 @@ const generateProsecutorIntro = (caseDescription: string) => {
   return intros[Math.floor(Math.random() * intros.length)];
 };
 
+// Move useSpeechRecognitionFallback outside of toggleVoiceInput
+const useSpeechRecognitionFallback = (
+  speechRecognitionRef: React.MutableRefObject<any>,
+  setIsListening: (value: boolean) => void,
+  setRecordingState: (value: string) => void
+) => {
+  if (speechRecognitionRef.current) {
+    try {
+      speechRecognitionRef.current.start();
+      setIsListening(true);
+      setRecordingState('recording');
+      
+      toast('Listening (browser recognition)...', { 
+        icon: '🎤', 
+        duration: 2000,
+        position: 'bottom-center',
+        style: { background: '#f3f4f6', color: '#374151', fontSize: '0.875rem' }
+      });
+    } catch (error) {
+      console.error('Error starting speech recognition:', error);
+      setRecordingState('idle');
+      toast('Voice recognition failed. Please try again.', {
+        icon: '🎤',
+        duration: 2000,
+        position: 'bottom-center',
+        style: { background: '#f3f4f6', color: '#374151', fontSize: '0.875rem' }
+      });
+    }
+  }
+};
+
 export const RandomCase = ({ onComplete }: RandomCaseProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [playerInput, setPlayerInput] = useState("");
@@ -667,11 +699,10 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
     };
   }, []);
 
-  // Handle voice input with better error handling
+  // Update toggleVoiceInput to use the moved function
   const toggleVoiceInput = useCallback(() => {
     if (!voiceSupported || isPoorPerformance) return;
     
-    // If already listening, stop recording
     if (isListening) {
       setRecordingState('processing');
       if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
@@ -692,12 +723,10 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
         }
       }
     } else {
-      // Try to use MediaRecorder first (for API transcription)
       if (typeof window !== 'undefined' && navigator.mediaDevices && 'MediaRecorder' in window) {
         navigator.mediaDevices.getUserMedia({ audio: true })
           .then(stream => {
             try {
-              // Setup media recorder with better mime type support
               const options = { 
                 mimeType: MediaRecorder.isTypeSupported('audio/webm') 
                   ? 'audio/webm' 
@@ -719,12 +748,10 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                 setRecordingState('processing');
                 
                 try {
-                  // Combine chunks into a single blob
                   const audioBlob = new Blob(audioChunksRef.current, { 
                     type: mediaRecorder.mimeType 
                   });
                   
-                  // Check if audio blob is too small (likely no speech)
                   if (audioBlob.size < 1000) {
                     toast('No speech detected. Try again.', { 
                       icon: '🎤', 
@@ -736,7 +763,6 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                     return;
                   }
                   
-                  // Send to Groq for transcription
                   const transcript = await transcribeAudioWithGroq(audioBlob);
                   
                   if (transcript && transcript.trim()) {
@@ -764,14 +790,12 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                     style: { background: '#f3f4f6', color: '#374151', fontSize: '0.875rem' }
                   });
                 } finally {
-                  // Stop all tracks on the stream to release the microphone
                   stream.getTracks().forEach(track => track.stop());
                   setRecordingState('idle');
                 }
               };
               
-              // Start recording
-              mediaRecorder.start(1000); // Capture data in 1-second chunks
+              mediaRecorder.start(1000);
               setIsListening(true);
               setRecordingState('recording');
               
@@ -783,16 +807,14 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
               });
             } catch (error) {
               console.error('Error initializing MediaRecorder:', error);
-              // Fall back to SpeechRecognition
-              useSpeechRecognitionFallback();
+              useSpeechRecognitionFallback(speechRecognitionRef, setIsListening, setRecordingState);
             }
           })
           .catch(error => {
             console.error('Error accessing microphone:', error);
             
-            // Try to use SpeechRecognition as fallback if mic permission denied
             if (speechRecognitionRef.current) {
-              useSpeechRecognitionFallback();
+              useSpeechRecognitionFallback(speechRecognitionRef, setIsListening, setRecordingState);
             } else {
               toast('Microphone access needed.', {
                 icon: '🎤',
@@ -804,38 +826,10 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
             }
           });
       } else if (speechRecognitionRef.current) {
-        // If MediaRecorder not available, use SpeechRecognition
-        useSpeechRecognitionFallback();
+        useSpeechRecognitionFallback(speechRecognitionRef, setIsListening, setRecordingState);
       }
     }
   }, [isListening, voiceSupported, isPoorPerformance]);
-  
-  // Helper function to use speech recognition as fallback
-  const useSpeechRecognitionFallback = useCallback(() => {
-    if (speechRecognitionRef.current) {
-      try {
-        speechRecognitionRef.current.start();
-        setIsListening(true);
-        setRecordingState('recording');
-        
-        toast('Listening (browser recognition)...', { 
-          icon: '🎤', 
-          duration: 2000,
-          position: 'bottom-center',
-          style: { background: '#f3f4f6', color: '#374151', fontSize: '0.875rem' }
-        });
-      } catch (error) {
-        console.error('Error starting speech recognition:', error);
-        setRecordingState('idle');
-        toast('Voice recognition failed. Please try again.', {
-          icon: '🎤',
-          duration: 2000,
-          position: 'bottom-center',
-          style: { background: '#f3f4f6', color: '#374151', fontSize: '0.875rem' }
-        });
-      }
-    }
-  }, []);
 
   // Add keyboard shortcut for voice input (press 'v' key)
   useEffect(() => {
