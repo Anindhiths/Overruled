@@ -467,7 +467,7 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
                messages[messages.length - 1].content.includes("mention the security") ||
                messages[messages.length - 1].content.includes("For your") ||
                messages[messages.length - 1].content.includes("Good!"))) && (
-              <div className="player-input absolute bottom-6 left-6 right-6 transition-opacity duration-300">
+              <div className="player-input absolute bottom-20 left-6 right-6 transition-opacity duration-300">
                 <form onSubmit={handlePlayerInput} className="flex items-center">
           <input
             type="text"
@@ -505,7 +505,7 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
                 messages[messages.length - 1].content.includes("mention the security") ||
                 messages[messages.length - 1].content.includes("For your") ||
                 messages[messages.length - 1].content.includes("Good!"))))) && (
-              <div className="next-button-container absolute right-6 bottom-6">
+              <div className="next-button-container absolute right-6 bottom-20">
                 <button 
                   className="next-button bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-lg transition-colors flex items-center"
                   onClick={advanceDialogue}

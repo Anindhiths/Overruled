@@ -1477,7 +1477,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
               messages[messages.length - 1].role === 'witness' || 
               messages[messages.length - 1].role === 'system') && 
              !(messages.length === 1 && messages[0].role === 'judge') && (
-              <div className="player-input mt-4 absolute bottom-6 left-6 right-6 transition-opacity duration-300">
+              <div className="player-input mt-4 absolute bottom-20 left-6 right-6 transition-opacity duration-300">
                 <form onSubmit={handlePlayerInput} className="flex items-center">
                   <input
                     type="text"
@@ -1549,7 +1549,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
             {(messageQueue.length > 0 || 
               (messages.length > 0 && messages[messages.length - 1].role !== 'player' && !hasPendingMessages)) && (
               <div 
-                className="fixed bottom-6 right-6 z-50"
+                className="fixed bottom-20 right-6 z-50"
                 style={{ pointerEvents: 'auto' }}
               >
                 <button 
