@@ -1546,17 +1546,16 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
             
             {/* ALWAYS VISIBLE NEXT BUTTON */}
             {/* This is a failsafe next button that will always be visible when needed */}
-            {(messageQueue.length > 0 || 
-              (messages.length > 0 && messages[messages.length - 1].role !== 'player' && !hasPendingMessages)) && (
+            {messageQueue.length > 0 && (
               <div 
                 className="fixed bottom-40 right-6 z-50"
                 style={{ pointerEvents: 'auto' }}
               >
                 <button 
                   className="next-button bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-colors flex items-center text-lg font-bold"
-                  onClick={messageQueue.length > 0 ? advanceDialogue : () => setPlayerInput("Your Honor, I would like to present my case.")}
+                  onClick={advanceDialogue}
                 >
-                  {messageQueue.length > 0 ? "Next" : "Respond"}
+                  {hasFinalVerdict ? "Show Verdict" : "Next"}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
