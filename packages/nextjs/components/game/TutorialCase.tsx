@@ -416,7 +416,7 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
           </div>
           
           {/* Bottom dialogue box - like in visual novels */}
-          <div className="dialogue-box bg-gray-800/90 backdrop-blur-sm text-white p-6 rounded-t-xl min-h-[300px] w-full shadow-lg relative">
+          <div className="dialogue-box bg-gray-800/90 backdrop-blur-sm text-white p-6 rounded-t-xl min-h-[350px] w-full shadow-lg relative">
             {/* Speaker name tag if not player or system */}
             {messages.length > 0 && !['player', 'system'].includes(messages[messages.length - 1].role) && (
               <div className="absolute -top-5 left-8 bg-blue-600 text-white px-4 py-1 rounded-t-lg font-bold">
@@ -450,7 +450,7 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
         </div>
 
             {/* Message content with typewriter effect */}
-            <div className="dialogue-content text-xl mb-20 overflow-y-auto max-h-[180px] whitespace-pre-wrap leading-relaxed">
+            <div className="dialogue-content text-xl mb-20 overflow-y-auto max-h-[250px] whitespace-pre-wrap leading-relaxed">
               {messages.length > 0 ? (
                 <div className="w-full pr-4">{messages[messages.length - 1].content}</div>
               ) : (

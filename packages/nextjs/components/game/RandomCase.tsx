@@ -1420,7 +1420,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                       </div>
           
           {/* Bottom dialogue box - like in visual novels */}
-          <div className="dialogue-box bg-gray-800/90 backdrop-blur-sm text-white p-6 rounded-t-xl min-h-[300px] w-full shadow-lg relative">
+          <div className="dialogue-box bg-gray-800/90 backdrop-blur-sm text-white p-6 rounded-t-xl min-h-[350px] w-full shadow-lg relative">
             {/* Speaker name tag if not player or system */}
             {messages.length > 0 && !['player', 'system'].includes(messages[messages.length - 1].role) && (
               <div className="absolute -top-5 left-8 bg-blue-600 text-white px-4 py-1 rounded-t-lg font-bold">
@@ -1454,9 +1454,9 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                   </div>
             
             {/* Message display area */}
-            <div className="flex-grow mb-20 overflow-y-auto max-h-[180px]">
+            <div className="flex-grow mb-20 overflow-y-auto max-h-[250px]">
               {/* Message content with typewriter effect */}
-              <div className="dialogue-content text-xl leading-relaxed min-h-[120px] w-full pr-4">
+              <div className="dialogue-content text-xl leading-relaxed min-h-[150px] w-full pr-4">
                 {messages.length > 0 ? (
                   <TypewriterText 
                     text={messages[messages.length - 1].content} 
