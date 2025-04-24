@@ -1331,19 +1331,30 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
         <div className="flex-1 flex flex-col relative">
           {/* Character display area - takes up most of the screen */}
           <div className="flex-1 flex justify-center items-center">
-            {/* Only show the current speaking character */}
+            {/* Display empty image when no character is shown or system message is displayed */}
             {messages.length > 0 && (
               <div className="character-display flex items-center justify-center h-full relative">
                 {(() => {
                   // Get the last message to determine who's speaking
                   const lastMessage = messages[messages.length - 1];
                   
-                  // Don't show character for system or player messages
+                  // Use empty.png for system messages or player messages
                   if (lastMessage.role === 'system' || lastMessage.role === 'player') {
-                    return null;
+                    return (
+                      <div className="character-container text-center">
+                        <img 
+                          src="/images/characters/empty.png"
+                          alt="Case Information"
+                          className="h-96 object-contain mx-auto"
+                          style={{ 
+                            filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.5))"
+                          }}
+                        />
+                      </div>
+                    );
                   }
                   
-                  // Determine which character image to show
+                  // Determine which character image to show for other roles
                   let characterImage = "";
                   let characterName = "";
                   
@@ -1411,13 +1422,25 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                       />
                       <div className="mt-2 text-xl font-bold text-white bg-black/40 py-1 px-4 rounded-full inline-block">
                         {characterName}
-                          </div>
                       </div>
-                  ) : null;
+                    </div>
+                  ) : (
+                    // Fallback to empty.png if no character image is found
+                    <div className="character-container text-center">
+                      <img 
+                        src="/images/characters/empty.png"
+                        alt="No Character"
+                        className="h-96 object-contain mx-auto"
+                        style={{ 
+                          filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.5))"
+                        }}
+                      />
+                    </div>
+                  );
                 })()}
-                          </div>
-                        )}
-                      </div>
+              </div>
+            )}
+          </div>
           
           {/* Bottom dialogue box - like in visual novels */}
           <div className="dialogue-box bg-gray-800/90 backdrop-blur-sm text-white p-6 rounded-t-xl min-h-[350px] w-full shadow-lg relative">

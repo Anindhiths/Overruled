@@ -362,16 +362,27 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
         <div className="flex-1 flex flex-col relative">
           {/* Character display area - takes up most of the screen */}
           <div className="flex-1 flex justify-center items-center">
-            {/* Only show the current speaking character */}
+            {/* Display empty image when no character is shown or system message is displayed */}
             {messages.length > 0 && (
               <div className="character-display flex items-center justify-center h-full relative">
                 {(() => {
                   // Get the last message to determine who's speaking
                   const lastMessage = messages[messages.length - 1];
                   
-                  // Don't show character for system or player messages
+                  // Use empty.png for system messages or player messages
                   if (lastMessage.role === 'system' || lastMessage.role === 'player') {
-                    return null;
+                    return (
+                      <div className="character-container text-center">
+                        <img 
+                          src="/images/characters/empty.png"
+                          alt="Case Information"
+                          className="h-96 object-contain mx-auto"
+                          style={{
+                            filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.5))"
+                          }}
+                        />
+                      </div>
+                    );
                   }
                   
                   // Determine which character image to show
@@ -409,7 +420,19 @@ export const TutorialCase = ({ onComplete }: { onComplete: () => void }) => {
                         {characterName}
                       </div>
                     </div>
-                  ) : null;
+                  ) : (
+                    // Fallback to empty.png if no character image is found
+                    <div className="character-container text-center">
+                      <img 
+                        src="/images/characters/empty.png"
+                        alt="No Character"
+                        className="h-96 object-contain mx-auto"
+                        style={{
+                          filter: "drop-shadow(2px 4px 6px rgba(0,0,0,0.5))"
+                        }}
+                      />
+                    </div>
+                  );
                 })()}
               </div>
             )}
