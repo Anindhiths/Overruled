@@ -1,0 +1,13 @@
+{
+  "name": "overruled-vercel",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "cd packages/nextjs && yarn install && yarn build",
+    "start": "cd packages/nextjs && yarn start",
+    "vercel-build": "node deploy-vercel.js && cd packages/nextjs && yarn install && yarn build"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+} 

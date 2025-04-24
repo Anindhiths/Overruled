@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/packages/nextjs/$1" }
+  ],
+  "buildCommand": "cd packages/nextjs && yarn install && yarn build",
+  "outputDirectory": "packages/nextjs/.next"
+} 

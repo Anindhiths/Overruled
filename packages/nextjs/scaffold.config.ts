@@ -1,5 +1,6 @@
 import * as chains from "viem/chains";
 import { monadTestnet } from "./utils/monad";
+import * as wagmiChains from "wagmi/chains";
 
 export type ScaffoldConfig = {
   targetNetworks: readonly (chains.Chain | typeof monadTestnet)[];
@@ -14,7 +15,8 @@ export const DEFAULT_ALCHEMY_API_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.hardhat, monadTestnet],
+  // Using Sepolia for Vercel deployment
+  targetNetworks: [chains.sepolia],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
@@ -29,8 +31,8 @@ const scaffoldConfig = {
   // If you want to use a different RPC for a specific network, you can add it here.
   // The key is the chain ID, and the value is the HTTP RPC URL
   rpcOverrides: {
-    // Add Monad Testnet RPC
-    10143: "https://testnet-rpc.monad.xyz/",
+    // Add Sepolia Testnet RPC
+    11155111: "https://rpc.sepolia.org",
   },
 
   // This is ours WalletConnect's default project ID.
@@ -44,3 +46,44 @@ const scaffoldConfig = {
 } as const satisfies ScaffoldConfig;
 
 export default scaffoldConfig;
+
+/**
+ * @example
+ * const targetNetwork = {
+ *   id: 11155111,
+ *   name: "Sepolia",
+ *   network: "sepolia",
+ *   nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+ *   rpcUrls: {
+ *     default: {
+ *       http: ["https://rpc.sepolia.org"],
+ *     },
+ *   },
+ *   blockExplorers: {
+ *     default: {
+ *       name: "Etherscan",
+ *       url: "https://sepolia.etherscan.io",
+ *     },
+ *   },
+ *   testnet: true,
+ * };
+ */
+export const targetNetwork = {
+  // ⚡️ Set your target network here (for deploying on Vercel)
+  id: 11155111,
+  name: "Sepolia",
+  network: "sepolia",
+  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.sepolia.org"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Etherscan",
+      url: "https://sepolia.etherscan.io",
+    },
+  },
+  testnet: true,
+};
