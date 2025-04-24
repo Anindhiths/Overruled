@@ -1453,18 +1453,6 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                     </div>
                   </div>
             
-            {/* Replace auto-continue toggle section with a simple Next button UI */}
-            <div className="flex items-center mb-4 space-x-2">
-              {messageQueue.length > 0 && (
-                <button
-                  className="px-2 py-1 text-xs rounded bg-blue-600"
-                  onClick={advanceDialogue}
-                >
-                  Next Message
-                </button>
-              )}
-            </div>
-
             {/* Message display area */}
             <div className="flex-grow mb-20 overflow-y-auto max-h-[180px]">
               {/* Message content with typewriter effect */}
@@ -1490,97 +1478,86 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
               messages[messages.length - 1].role === 'system') && 
              !(messages.length === 1 && messages[0].role === 'judge') && (
               <div className="player-input mt-4 absolute bottom-6 left-6 right-6 transition-opacity duration-300">
-          <form onSubmit={handlePlayerInput} className="flex items-center">
-            <input
-              type="text"
-              value={playerInput}
-              onChange={(e) => setPlayerInput(e.target.value)}
+                <form onSubmit={handlePlayerInput} className="flex items-center">
+                  <input
+                    type="text"
+                    value={playerInput}
+                    onChange={(e) => setPlayerInput(e.target.value)}
                     placeholder="Enter your response..."
-              className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/90 text-black"
+                    className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/90 text-black"
                     disabled={isPoorPerformance || hasPendingMessages}
-            />
-            <div className="flex space-x-2 ml-2">
-            {voiceSupported && (
-              <button
-                type="button"
-                onClick={toggleVoiceInput}
-                className={`p-2 rounded-lg transition-colors relative ${
-                  isListening
-                    ? "bg-red-500 text-white animate-pulse"
-                    : "bg-blue-100 text-blue-500 hover:bg-blue-200"
-                }`}
-                        disabled={isPoorPerformance || recordingState === 'processing' || hasPendingMessages}
-                title="Voice Input"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                   />
-                </svg>
-                {recordingState === 'processing' && (
-                  <span className="absolute top-0 right-0 h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                  </span>
-                )}
-                {recordingState === 'recording' && (
-                  <span className="absolute top-0 right-0 h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                  </span>
-                )}
-              </button>
-            )}
-            <button
-              type="submit"
-              className={`px-4 py-2 text-white rounded-lg transition-colors ${
-                        isPoorPerformance || hasPendingMessages
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }`}
+                  <div className="flex space-x-2 ml-2">
+                    {voiceSupported && (
+                      <button
+                        type="button"
+                        onClick={toggleVoiceInput}
+                        className={`p-2 rounded-lg transition-colors relative ${
+                          isListening
+                            ? "bg-red-500 text-white animate-pulse"
+                            : "bg-blue-100 text-blue-500 hover:bg-blue-200"
+                        }`}
+                        disabled={isPoorPerformance || recordingState === 'processing' || hasPendingMessages}
+                        title="Voice Input"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                          />
+                        </svg>
+                        {recordingState === 'processing' && (
+                          <span className="absolute top-0 right-0 h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                          </span>
+                        )}
+                        {recordingState === 'recording' && (
+                          <span className="absolute top-0 right-0 h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                          </span>
+                        )}
+                      </button>
+                    )}
+                    <button
+                      type="submit"
+                      className={`px-4 py-2 text-white rounded-lg transition-colors ${
+                                isPoorPerformance || hasPendingMessages
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-blue-600"
+                      }`}
                       disabled={isPoorPerformance || hasPendingMessages}
-            >
-              Submit
-            </button>
-            </div>
-          </form>
-        </div>
-            )}
-            
-            {/* Simplified Next button - always show it when there are pending messages */}
-            {messageQueue.length > 0 && (
-              <div className="next-button-container absolute right-6 bottom-6">
-                <button 
-                  className="next-button bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-lg transition-colors flex items-center"
-                  onClick={advanceDialogue}
-                >
-                  Next
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
             )}
-
-            {/* Alternative Next button that shows when there are no pending messages but we need to wait for player input */}
-            {messageQueue.length === 0 && !hasPendingMessages && messages.length > 1 && 
-             ['judge', 'opponent', 'witness'].includes(messages[messages.length - 1].role) && (
-              <div className="next-button-container absolute right-6 bottom-6">
+            
+            {/* ALWAYS VISIBLE NEXT BUTTON */}
+            {/* This is a failsafe next button that will always be visible when needed */}
+            {(messageQueue.length > 0 || 
+              (messages.length > 0 && messages[messages.length - 1].role !== 'player' && !hasPendingMessages)) && (
+              <div 
+                className="fixed bottom-6 right-6 z-50"
+                style={{ pointerEvents: 'auto' }}
+              >
                 <button 
-                  className="next-button bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg transition-colors flex items-center"
-                  onClick={() => setPlayerInput("Your Honor, I would like to present my case.")}
+                  className="next-button bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-colors flex items-center text-lg font-bold"
+                  onClick={messageQueue.length > 0 ? advanceDialogue : () => setPlayerInput("Your Honor, I would like to present my case.")}
                 >
-                  Respond
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  {messageQueue.length > 0 ? "Next" : "Respond"}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </button>
