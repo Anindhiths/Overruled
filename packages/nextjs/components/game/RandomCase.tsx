@@ -458,7 +458,7 @@ const generateProsecutorIntro = (caseDescription: string) => {
 const useSpeechRecognitionFallback = (
   speechRecognitionRef: React.MutableRefObject<any>,
   setIsListening: (value: boolean) => void,
-  setRecordingState: (value: string) => void
+  setRecordingState: React.Dispatch<React.SetStateAction<'idle' | 'recording' | 'processing'>>
 ) => {
   if (speechRecognitionRef.current) {
     try {
@@ -1224,7 +1224,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
       // Check if this is a losing verdict
       if (message.toLowerCase().includes("in favor of the prosecution") || 
           message.toLowerCase().includes("time has expired") ||
-          message.content.includes("Case dismissed")) {
+          message.toLowerCase().includes("case dismissed")) {
         return "/images/characters/judge_sad.png";
       }
       return "/images/characters/judge.png";

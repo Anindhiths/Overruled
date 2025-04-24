@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function About() {
   return (
     <div className="container mx-auto px-4 py-12">
@@ -11,8 +13,8 @@ export default function About() {
             The game combines the power of blockchain technology with AI-powered interactions to create an engaging and educational experience.
           </p>
           <p className="text-white">
-            As a player, you'll be presented with different cases and must use your legal expertise to defend your clients. 
-            You'll interact with an AI judge, opposing counsel, and witnesses through a chat-based interface, making arguments and presenting evidence to win your cases.
+            As a player, you&apos;ll be presented with different cases and must use your legal expertise to defend your clients. 
+            You&apos;ll interact with an AI judge, opposing counsel, and witnesses through a chat-based interface, making arguments and presenting evidence to win your cases.
           </p>
         </section>
         
@@ -29,7 +31,7 @@ export default function About() {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-2">2. Enter the Courtroom</h3>
               <p className="text-gray-700">
-                Step into a virtual courtroom where you'll interact with an AI judge and opposing counsel. The courtroom environment is designed to mimic real legal proceedings.
+                Step into a virtual courtroom where you&apos;ll interact with an AI judge and opposing counsel. The courtroom environment is designed to mimic real legal proceedings.
               </p>
             </div>
             
@@ -70,7 +72,7 @@ export default function About() {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-2">AI Integration</h3>
               <p className="text-gray-700">
-                Powered by Groq's advanced AI models, the game features intelligent judge, opposing counsel, and witness interactions. 
+                Powered by Groq&apos;s advanced AI models, the game features intelligent judge, opposing counsel, and witness interactions. 
                 The AI adapts to your arguments and creates dynamic, engaging conversations.
               </p>
             </div>
@@ -83,12 +85,12 @@ export default function About() {
             Ready to test your legal skills? Connect your wallet and start playing Legal Battle Arena today!
           </p>
           <div className="flex justify-center">
-            <a 
+            <Link 
               href="/game" 
               className="px-8 py-4 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               Play Now
-            </a>
+            </Link>
           </div>
         </section>
       </div>
