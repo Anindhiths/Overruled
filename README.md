@@ -14,7 +14,7 @@
 
 ## 🎯 Objective
 
-"Overruled!" is an interactive courtroom drama game where players step into the shoes of a lawyer, presenting arguments and examining witnesses in a fully immersive legal environment. The game features AI-powered characters, including a judge who evaluates your arguments, opposing counsel who challenges your position, and witnesses who provide dynamic testimony. Built on the Monad blockchain, all case outcomes and player achievements are permanently recorded on-chain, creating a transparent and tamper-proof legal record. This unique blend of entertainment and education offers players an engaging way to develop legal reasoning skills while experiencing the drama of the courtroom.
+"Overruled!" is an interactive courtroom drama game where players step into the shoes of a lawyer, presenting arguments and examining witnesses in a fully immersive legal environment. The game features AI-powered characters, including a judge who evaluates your arguments, opposing counsel who challenges your position, and witnesses who provide dynamic testimony. Built on the Monad blockchain, all case outcomes and player achievements are permanently recorded on-chain, creating a transparent and tamper-proof legal record. This unique blend of entertainment offers players an engaging way to develop legal reasoning skills while experiencing the drama of the courtroom.
 
 ---
 
@@ -29,7 +29,9 @@
 ### Approach:
 - I chose this problem to combine my interest in legal systems with blockchain technology and AI
 - Key challenges included integrating voice recognition, creating responsive AI character interactions, and implementing Monad blockchain integration
-- The breakthrough moment was successfully implementing real-time argument quality analysis with visual feedback (red background for poor arguments)
+- Designed an immersive visual novel-style UI that recreates courtroom drama with dynamic character expressions and responsive dialogue
+- Built multi-platform compatibility with responsive design elements that work across desktop and mobile devices
+- Utilized blockchain for transparent case records and achievements, ensuring verifiable player history and progress
 
 ---
 
@@ -57,28 +59,25 @@ Highlight the most important features of the project:
 
 - ✅ **AI-Powered Characters:** Dynamic judge, opposing counsel, and witnesses powered by Groq LLM
 - ✅ **Voice Input:** Present arguments naturally using voice recognition
-- ✅ **Visual Feedback:** Background turns red for poor arguments and fades back to white
+- ✅ **RNG Game:** Every case is unique and different from others
 - ✅ **Blockchain Integration:** Case outcomes and player achievements recorded on Monad
 - ✅ **Educational Value:** Learn legal concepts and argumentation techniques while playing
-
-![Game Screenshot](https://example.com/screenshot.png) <!-- Replace with actual screenshot URL -->
 
 ---
 
 ## 📽️ Demo & Deliverables
 
-- **Demo Video Link:** [Paste YouTube or Loom link here]
-- **Pitch Deck / PPT Link:** [Paste Google Slides / PDF link here]
+- **Demo Video Link:** [https://youtu.be/YD38JOtCqWc]
+- **Pitch Deck / PPT Link:** [https://www.canva.com/design/DAGk-rg6vX4/bRkQ0KRj91Os6t71gUyzWg/edit?utm_content=DAGk-rg6vX4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton]
 
 ---
 
 ## ✅ Tasks & Bonus Checklist
 
-- [ ] **All members of the team completed the mandatory task - Followed at least 2 of our social channels and filled the form** (Details in Participant Manual)
+- [✅] **All members of the team completed the mandatory task - Followed at least 2 of our social channels and filled the form** (Details in Participant Manual)
 - [ ] **All members of the team completed Bonus Task 1 - Sharing of Badges and filled the form (2 points)**  (Details in Participant Manual)
-- [ ] **All members of the team completed Bonus Task 2 - Signing up for Sprint.dev and filled the form (3 points)**  (Details in Participant Manual)
+- [✅] **All members of the team completed Bonus Task 2 - Signing up for Sprint.dev and filled the form (3 points)**  (Details in Participant Manual)
 
-*(Mark with ✅ if completed)*
 
 ---
 
