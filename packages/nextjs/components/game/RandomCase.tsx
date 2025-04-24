@@ -1463,7 +1463,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                   Next Message
                 </button>
               )}
-        </div>
+            </div>
 
             {/* Message display area */}
             <div className="flex-grow mb-20 overflow-y-auto max-h-[180px]">
@@ -1477,8 +1477,8 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                 ) : (
                   <span className="text-gray-400">Loading case...</span>
                 )}
+              </div>
             </div>
-          </div>
 
             {/* Player input area - only shown when it's the player's turn to respond */}
             {messages.length > 0 && 
@@ -1556,12 +1556,8 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
         </div>
             )}
             
-            {/* Manual Next button - only show when it's not the player's turn and there are pending messages */}
-            {messages.length > 0 && !['player'].includes(messages[messages.length - 1].role) && 
-             !(messageQueue.length === 0 && 
-               !isPoorPerformance && 
-               !hasPendingMessages && 
-               ['judge', 'opponent', 'witness', 'system'].includes(messages[messages.length - 1].role)) && (
+            {/* Simplified Next button - always show it when there are pending messages */}
+            {messageQueue.length > 0 && (
               <div className="next-button-container absolute right-6 bottom-6">
                 <button 
                   className="next-button bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-lg transition-colors flex items-center"
@@ -1572,7 +1568,23 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </button>
-      </div>
+              </div>
+            )}
+
+            {/* Alternative Next button that shows when there are no pending messages but we need to wait for player input */}
+            {messageQueue.length === 0 && !hasPendingMessages && messages.length > 1 && 
+             ['judge', 'opponent', 'witness'].includes(messages[messages.length - 1].role) && (
+              <div className="next-button-container absolute right-6 bottom-6">
+                <button 
+                  className="next-button bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg transition-colors flex items-center"
+                  onClick={() => setPlayerInput("Your Honor, I would like to present my case.")}
+                >
+                  Respond
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
             )}
           </div>
         </div>
