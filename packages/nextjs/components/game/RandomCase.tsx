@@ -17,6 +17,7 @@ interface Message {
 
 interface RandomCaseProps {
   onComplete: (won: boolean) => void;
+  currentStreak?: number; // Add optional currentStreak prop
 }
 
 interface CaseTemplate {
@@ -343,9 +344,28 @@ const CASE_TEMPLATES: CaseTemplate[] = [
   // ... existing case templates stay as fallback ...
 ];
 
-const GAME_SETTINGS = {
+const BASE_GAME_SETTINGS = {
   maxResponses: 5,
   scoreToWin: 2
+};
+
+// Calculate dynamic difficulty based on streak
+const calculateDifficulty = (streak: number) => {
+  // Increase difficulty every 3 cases won
+  // Difficulty level 0 = base settings
+  // Difficulty level 1 (streak 3-5) = base settings + 1
+  // Difficulty level 2 (streak 6-8) = base settings + 2
+  // And so on...
+  const difficultyLevel = Math.floor(streak / 3);
+  
+  return {
+    // More responses allowed as difficulty increases, giving player more chances
+    // but also requiring more sustained good performance
+    maxResponses: BASE_GAME_SETTINGS.maxResponses + difficultyLevel,
+    
+    // More points needed to win as difficulty increases
+    scoreToWin: BASE_GAME_SETTINGS.scoreToWin + difficultyLevel
+  };
 };
 
 // Add a function to handle Groq voice transcription and browser fallback
@@ -485,7 +505,7 @@ const useSpeechRecognitionFallback = (
   }
 };
 
-export const RandomCase = ({ onComplete }: RandomCaseProps) => {
+export const RandomCase = ({ onComplete, currentStreak = 0 }: RandomCaseProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [playerInput, setPlayerInput] = useState("");
   const [newResponseCount, setNewResponseCount] = useState(0);
@@ -502,6 +522,11 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
   const [currentWitnessImage, setCurrentWitnessImage] = useState<string>("");
   const [hasPendingMessages, setHasPendingMessages] = useState(false);
 
+  // Calculate difficulty based on current streak
+  const difficultySettings = calculateDifficulty(currentStreak);
+  const requiredScore = difficultySettings.scoreToWin;
+  const maxResponses = difficultySettings.maxResponses;
+  
   const [isNewMessage, setIsNewMessage] = useState(false);
   const [isPoorPerformance, setIsPoorPerformance] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -518,7 +543,6 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const aiService = AIService.getInstance();
-  const requiredScore = GAME_SETTINGS.scoreToWin;
 
   const { data: gameContract } = useScaffoldContract({
     contractName: "LegalGame",
@@ -982,7 +1006,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
         emotionalGuidance = "The player has presented strong evidence. If their argument is compelling, show concern in your response. If their evidence has flaws, respond with confidence and slight smugness.";
       } else if (gameState.playerScore > (requiredScore * 0.7)) {
         emotionalGuidance = "The player is winning the case. Show some frustration and urgency in your response.";
-      } else if (updatedResponseCount > GAME_SETTINGS.maxResponses * 0.7) {
+      } else if (updatedResponseCount > maxResponses * 0.7) {
         emotionalGuidance = "The case is nearing its end. If the player is losing, show confidence and satisfaction in your response.";
       }
       
@@ -1045,7 +1069,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
       const newState = updateGameState(playerInput, judgeResponse);
           
       // Check for end of game
-      if (newState.playerScore >= requiredScore || updatedResponseCount >= GAME_SETTINGS.maxResponses) {
+      if (newState.playerScore >= requiredScore || updatedResponseCount >= maxResponses) {
         // Add final judgment message
         const finalVerdict = newState.playerScore >= requiredScore 
           ? {
@@ -1089,7 +1113,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
       setIsPoorPerformance(false);
               
       // If this was the last response, remove auto-showing verdict
-      if (newState.playerScore >= requiredScore || updatedResponseCount >= GAME_SETTINGS.maxResponses) {
+      if (newState.playerScore >= requiredScore || updatedResponseCount >= maxResponses) {
         // Verdict will be shown after player clicks through all messages
       }
     } catch (error: any) {
@@ -1310,6 +1334,9 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
             <h2 className="text-xl font-bold">Overruled!</h2>
             <p className="text-sm">
               Score: <span className="font-bold">{gameState.playerScore}/{requiredScore}</span>
+              {currentStreak > 0 && (
+                <span className="ml-3">Streak: <span className="font-bold">{currentStreak}</span></span>
+              )}
             </p>
           </div>
           <div className="flex gap-2">
@@ -1491,7 +1518,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
                 Score: <span className="font-bold">{gameState.playerScore}/{requiredScore}</span>
                       </div>
               <div>
-                Response: <span className="font-bold">{newResponseCount}/{GAME_SETTINGS.maxResponses}</span>
+                Response: <span className="font-bold">{newResponseCount}/{maxResponses}</span>
                     </div>
                   </div>
             

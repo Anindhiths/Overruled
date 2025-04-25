@@ -88,6 +88,16 @@ const GamePage = () => {
               <div className="text-sm text-gray-600">Current Streak</div>
             </div>
           </div>
+          {gameStats.currentStreak > 0 && (
+            <div className="mb-6 text-center">
+              <p className="text-gray-700">
+                <strong>Difficulty Level:</strong> {Math.floor(gameStats.currentStreak / 3) + 1}
+              </p>
+              <p className="text-sm text-gray-600">
+                As your streak increases, you'll need more points to win and get more responses!
+              </p>
+            </div>
+          )}
           <div className="flex justify-center">
             <button
               onClick={startNextCase}
@@ -98,7 +108,7 @@ const GamePage = () => {
           </div>
         </div>
       ) : (
-        <RandomCase onComplete={handleCaseComplete} />
+        <RandomCase onComplete={handleCaseComplete} currentStreak={gameStats.currentStreak} />
       )}
     </div>
   );
