@@ -1,5 +1,5 @@
-import * as chains from "viem/chains";
 import { monadTestnet } from "./utils/monad";
+import * as chains from "viem/chains";
 import * as wagmiChains from "wagmi/chains";
 
 export type ScaffoldConfig = {
@@ -16,7 +16,7 @@ export const DEFAULT_ALCHEMY_API_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 const scaffoldConfig = {
   // The networks on which your DApp is live
   // Using Sepolia for Vercel deployment
-  targetNetworks: [chains.sepolia],
+  targetNetworks: [chains.sepolia, monadTestnet],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
@@ -33,6 +33,8 @@ const scaffoldConfig = {
   rpcOverrides: {
     // Add Sepolia Testnet RPC
     11155111: "https://rpc.sepolia.org",
+    // Add Monad Testnet RPC
+    10143: "https://testnet-rpc.monad.xyz/",
   },
 
   // This is ours WalletConnect's default project ID.
@@ -70,19 +72,19 @@ export default scaffoldConfig;
  */
 export const targetNetwork = {
   // ⚡️ Set your target network here (for deploying on Vercel)
-  id: 11155111,
-  name: "Sepolia",
-  network: "sepolia",
-  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  id: 10143,
+  name: "Monad Testnet",
+  network: "monad-testnet",
+  nativeCurrency: { name: "MON", symbol: "MON", decimals: 18 },
   rpcUrls: {
     default: {
-      http: ["https://rpc.sepolia.org"],
+      http: ["https://testnet-rpc.monad.xyz/"],
     },
   },
   blockExplorers: {
     default: {
-      name: "Etherscan",
-      url: "https://sepolia.etherscan.io",
+      name: "Monad Explorer",
+      url: "https://testnet.monadexplorer.com/",
     },
   },
   testnet: true,
