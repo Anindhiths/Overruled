@@ -557,6 +557,9 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
   const [hasFinalVerdict, setHasFinalVerdict] = useState<boolean>(false);
   const [finalVerdictOutcome, setFinalVerdictOutcome] = useState<'win' | 'loss' | null>(null);
 
+  // Add courtroom background state
+  const [courtroomBackground, setCourtroomBackground] = useState("/images/Courtroom Background.png");
+
   // Modify initializeCase to use personalities
   const initializeCase = async () => {
     try {
@@ -565,6 +568,14 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
 
       const randomWitnessImage = WITNESS_IMAGES[Math.floor(Math.random() * WITNESS_IMAGES.length)];
       setCurrentWitnessImage(`/images/characters/${randomWitnessImage}.png`);
+      
+      // Randomize courtroom background
+      const backgrounds = [
+        "/images/Courtroom Background.png",
+        "/images/courtroom-2.png"
+      ];
+      const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+      setCourtroomBackground(randomBackground);
 
       setIsPoorPerformance(true);
       
@@ -1198,6 +1209,14 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
     const randomWitnessImage = WITNESS_IMAGES[Math.floor(Math.random() * WITNESS_IMAGES.length)];
     setCurrentWitnessImage(`/images/characters/${randomWitnessImage}.png`);
     
+    // Randomize courtroom background
+    const backgrounds = [
+      "/images/Courtroom Background.png",
+      "/images/courtroom-2.png"
+    ];
+    const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    setCourtroomBackground(randomBackground);
+    
     setIsInitialized(false);
     setMessages([]);
     setNewResponseCount(0);
@@ -1273,7 +1292,7 @@ export const RandomCase = ({ onComplete }: RandomCaseProps) => {
       <div 
         className="fixed inset-0 h-full w-full"
         style={{ 
-          backgroundImage: 'url("/images/Courtroom Background.png")', 
+          backgroundImage: `url("${courtroomBackground}")`, 
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
